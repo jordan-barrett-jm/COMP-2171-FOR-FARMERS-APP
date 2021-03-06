@@ -1,0 +1,51 @@
+<section class="pt-5 pb-5 pb-0 homepage-hero" style="background-size: cover; min-height: 75vh; background-image: url(<%= image_path('banner.jpg') %>);" >
+  <div class="bg-overlay position-absolute"></div>
+  <div class="container position-relative zindex-1 pt-3 pb-3">
+    <div class="row  text-center align-content-center justify-content-between ">
+      <div class="col-12 col-md-7 pr-md-5 text-left align-self-center "> 
+        <h1 class="mb-4 text-white font-weight-bold  "><strong>For Farmer, For You</strong></h1>
+       
+        <p class="lead text-white">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+      </div>
+      <div class="col-12  col-md-5 ">
+        <div class="card shadow-lg text-left h-100">
+          <div class="card-body">
+            <% if params[:type] == "farmer" %>
+              <h3 class="mb-4">Sign Up Farmer</h3>
+            <% else %>
+              <h3 class="mb-4">Sign Up Consumer</h3>
+            <% end %>
+            <!-- form-->
+            <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+              <%= f.error_notification %>
+              
+
+              <div class="form-inputs">
+                <%= f.input :email,
+                            required: true,
+                            autofocus: true,
+                            input_html: { autocomplete: "email" }%>
+                <%= f.input :password,
+                            required: true,
+                            hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                            input_html: { autocomplete: "new-password" } %>
+                <%= f.input :password_confirmation,
+                            required: true,
+                            input_html: { autocomplete: "new-password" } %>
+              </div>
+
+              <%= f.hidden_field :account_type, value: params[:type] %>
+              
+              <div class="form-actions">
+                <%= f.button :submit, "Sign up", class: "btn btn-primary" %>
+              </div>
+            <% end %>
+
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+

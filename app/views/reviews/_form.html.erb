@@ -1,0 +1,30 @@
+<%= simple_form_for(@review) do |f| %>
+  <%= f.error_notification %>
+  <%= f.full_error :review %>
+
+  <div class="field">
+    <%= f.input :rating,
+                :collection => [1, 2, 3, 4, 5],
+                :prompt => "Please select a rating" %>
+  </div>
+
+  <div class="field">
+    <%= f.input :comment %>
+  </div>
+
+  <div class="field">
+    <%= f.input :consumer_id,
+                :as => :hidden,
+                :input_html => { value: Consumer.find_by_current_user(current_user.id).id } %>
+  </div>
+
+  <div class="field">
+    <%= f.input :farmer_id,
+                :as => :hidden,
+                :input_html => { value: @farmer.id } %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit class: "btn btn-primary mb-2" %>
+  </div>
+<% end %>

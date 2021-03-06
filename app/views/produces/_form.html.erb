@@ -1,0 +1,23 @@
+<%= simple_form_for(@produce) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :name, placeholder: "name of farm produce" %>
+
+    <%= f.input :description, placeholder: "Eg. Best lettuce in town." %>
+
+    <div class="mb-3">
+      <%= f.file_field :images, :multiple => true %>
+    </div>
+
+    <%= f.input :available %>
+
+    <%= f.input :farmer_id,
+                :as => :hidden, 
+                :input_html => { :value => current_farmer.id } %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit, class: "btn btn-primary mb-3" %>
+  </div>
+<% end %>

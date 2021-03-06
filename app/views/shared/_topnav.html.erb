@@ -1,0 +1,29 @@
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+  <h5 class="my-0 mr-md-auto font-weight-normal">
+    <%= link_to root_path, class: "text-dark font-weight-bold navbar-brand" do  %>
+      <%= image_tag("logo.svg", style: "width: 10%; height: auto;") %>
+      For Farmer
+    <% end %>
+</h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+      <% if consumer? %>
+        <%= link_to shopping_cart_path(current_user), class: "p-2 text-dark" do  %>
+          My Cart (<%= ShoppingCart.user_cart(current_user).amound_in_cart %>)
+        <% end %>
+      <% end %>
+      <% if current_user %>
+
+        <%= link_to 'My Account', edit_user_path(current_user), class: "p-2 text-dark" %>
+        <%= link_to 'My Orders', orders_path, class: "p-2 text-dark" %>
+       
+        <% if farmer? %>
+          <%= link_to 'My Farm', produces_path %>
+        <% end %>
+      </nav>
+      <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, data: {confirm: "Are you sure?"}, class: "btn btn-outline-danger" %>
+    <% else %>
+      <%= link_to 'Sign in', new_user_session_path(), class: "btn btn-primary ml-2" %>
+      <%= link_to "User Sign up", new_user_registration_path(type: 'consumer'), class: "btn btn-outline-primary" %>
+      <%= link_to "Farmer Sign up", new_user_registration_path(type: 'farmer'), class: "btn btn-outline-primary"  %>
+    <% end %>
+</div>

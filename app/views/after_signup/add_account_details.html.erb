@@ -1,0 +1,54 @@
+<div class="container mt-5">
+  <%= simple_form_for(@user, :url => wizard_path, :method => :put, :html => { :multipart => true }) do |f| %>
+    <%= f.error_notification %>
+	  <%= f.full_error :user %>
+
+	  <div class="form-inputs">
+  		<% if @user.farmer? %>
+    		<h4 class="mb-3">What is your farm's name?</h4>
+  			<%= f.simple_fields_for(:farmers) do |u| %>
+	        <%= u.input :farm_name %>
+  			<% end %>
+  		<% end %>
+
+  		<div class="py-5 text-center">
+				<h2>Account Details</h2>    			
+  		</div>
+
+      <%= f.file_field :avatar, class: "mb-3" %>
+
+      <div class="row">
+      	<div class="col-md-4 mb-3">
+	        <%= f.input :first_name %>
+      	</div>
+      	<div class="col-md-4 mb-3">
+	        <%= f.input :middle_name %>	      		
+      	</div>
+      	<div class="col-md-4 mb-3">
+	        <%= f.input :last_name %>
+      	</div>
+      </div>
+
+      <div class="row">
+      	<div class="col-md-4 mb-3">
+	        <%= f.input :address_line_1 %>
+      	</div>
+      	<div class="col-md-4 mb-3">
+	        <%= f.input :address_line_2  %>
+      	</div>
+      	<div class="col-md-4 mb-3">
+	        <%= f.input :city %>
+      	</div>
+      </div>
+
+      <%= f.input :parish,
+                  :collection => ["St.Peter", "St.Anthony", "St.Goerges"],
+                  :prompt => "Please select parish" %>
+      
+      <%= f.input :phone_number,
+                  :hint => "eg. 496-0000" %>
+
+    </div>
+    <%= f.submit 'Done', class: "btn btn-primary mb-3" %>
+  <% end %>
+</div>

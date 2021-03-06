@@ -1,0 +1,36 @@
+<section class="pt-5 pb-5 pb-0 homepage-hero" style="background-size: cover; min-height: 75vh; background-image: url(<%= image_path('banner.jpg') %>);" >
+  <div class="bg-overlay position-absolute"></div>
+  <div class="container position-relative zindex-1 pt-3 pb-3">
+    <div class="row  text-center align-content-center justify-content-between ">
+      <div class="col-12 col-md-7 pr-md-5 text-left align-self-center "> 
+        <h1 class="mb-4 text-white font-weight-bold  "><strong>For Farmer, For You</strong></h1>
+       
+        <p class="lead text-white">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+      </div>
+      <div class="col-12  col-md-5 ">
+        <div class="card shadow-lg text-left h-100">
+          <div class="card-body">
+            <h3 class="mb-4">Sign In</h3>
+            <!-- Login form-->
+            <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+              <div class="form-inputs">
+                <%= f.input :email,
+                            required: false,
+                            autofocus: true,
+                            input_html: { autocomplete: "email" } %>
+                <%= f.input :password,
+                            required: false,
+                            input_html: { autocomplete: "current-password" } %>
+                <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+              </div>
+
+              <div class="form-actions">
+                <%= f.button :submit, "Log in", class: "btn btn-primary" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

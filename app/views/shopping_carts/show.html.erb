@@ -1,0 +1,103 @@
+<div class="container-fluid pb-10">
+	<h1>Items in cart (<%= @shopping_cart.amound_in_cart %>)</h1>
+
+	<% @line_items.each do |item| %>
+		<div class="row mb-2">
+			<div class="col-md-8 mb-3">
+				<div class="card">
+					<div class="card-body">
+						<% @produce = Produce.find_by_id(item.produce_id) %>
+						<div class="d-sm-flex justify-content-between">
+							<div class="media d-block d-sm-flex text-center text-sm-left"> <a class="cart-item-thumb mx-auto mr-sm-4" href="#">
+								<img src="<%= set_image(@produce) %>" alt="Product" style="width: 140px; height: 140px;"></a>
+								<div class="media-body pt-3">
+									<h3 class="product-card-title font-weight-semibold border-0 pb-0"><%= @produce.name %></h3>
+									<p class="text-muted"><%= @produce.description %></p>
+								</div>
+							</div>
+							<div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 10rem;">
+								<p>Quantity</p>
+								<p>
+									<% if item.quantity != 1 %>
+									<%= link_to "-", decrease_quan_line_item_path(item), :method => :patch %>
+									<% end %>
+									<%= item.quantity %> 
+									<%= link_to "+", increase_quan_line_item_path(item), :method => :patch %>		
+								</p>	
+
+				 		      <%= link_to "Remove", item, method: :delete, data: { confirm: 'Are you sure?' } %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-body">
+						<%= simple_form_for(Order.new) do |f| %>
+							<%= f.input :note, 
+													:label => "Note to seller",
+													:input_html => { placeholder: "Give the seller small details about your order eg. please bag in plastic" },
+													:hint => "this can be blank" %>
+							<%= f.input :line_items_id,
+													:as => :hidden,
+													:input_html => { value: item.id } %>
+							<%= f.input :consumer_id,
+													:as => :hidden,
+													:input_html => { value: current_user.id } %>
+				     <%= f.submit "Place Order", class: "btn btn-primary" %> 
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% end %>
+
+	<h3 class="mt-10">What Other Users Bought</h3>
+	<div class="row mt-4">
+		<% @recommendations.each do |recommendation| %>
+			<% @produce = Produce.find_by_id(recommendation.produce_id) %>
+			<div class="col-md-3">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="media d-block col-md-4"> 
+								<a class="cart-item-thumb mx-auto mr-sm-4" href="#">
+								<img src="<%= set_image(@produce) %>" alt="Product" style="width: 50px; height: 50px;"></a>
+							</div>
+
+							<div class="media-body col-md-4">
+								<h5 class="product-card-title font-weight-semibold border-0 pb-0"><%= @produce.name %></h5>
+							</div>
+
+		          <div class="col-md-4">
+		            <a href="#" data-toggle="modal" data-target=".cart-modal-center_<%= @produce.id %>" class="btn btn-primary btn-sm">Add to cart</a>
+
+		            <div class="modal fade cart-modal-center_<%= @produce.id %>" role="dialog" style="display: none;" aria-hidden="true">
+		              <div class="modal-dialog modal-dialog-centered">
+			              <div class="modal-content">
+			                <div class="modal-body">
+			                  <%= simple_form_for(LineItem.new) do |f| %>
+			                    <%= f.input :quantity,
+			                                :input_html => { :min => 0 } %>
+			                    <%= f.input :produce_id, 
+			                                :as => :hidden,
+			                                :input_html => { :value => @produce.id } %>
+			                    <%= f.input :shopping_cart_id, 
+			                                :as => :hidden,
+			                                :input_html => { :value => ShoppingCart.user_cart(current_user).id } %>
+			                    <%= f.submit "Add", class: "btn btn-primary" %> 
+			                  <% end %>
+			                </div>
+			              </div><!-- /.modal-content -->
+		              </div><!-- /.modal-dialog -->
+		            </div> <!--/.modal-->
+		          </div>
+						</div>
+					</div>
+				</div>
+			</div>	
+		<% end %>
+	</div>
+</div>

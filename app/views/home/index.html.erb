@@ -1,0 +1,61 @@
+<%= render 'search_header' %>
+
+<div class="py-5 bg-light">
+  <div class="container">
+    <div class="mb-4">
+      <% if params[:search].present? %>
+        <%= link_to "Reset search", root_path %>
+      <% end %>
+    </div>  
+    <div class="row">
+      <% @produces.each do |produce| %>
+        <div class="col-md-4">
+          <div class="card mb-4 box-shadow">
+            <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="<%= set_image(produce) %>">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-2">
+                  <img class="rounded" src="<%= User.find_by_id(produce.seller.user_id).avatar.url %>" alt="">
+                </div>
+                <div class="col-md-6 pl-2">
+                  <p class="mb-0"><%= produce.seller.farm_name %> </p>
+                  <p class="text-success"><%= produce.seller.review %></p>
+                </div>
+              </div>
+              <hr class="mt-0">
+              <h5 class="card-title"><%= produce.name %></h5>
+              <p class="card-text"><%= produce.description %></p>
+              <% if consumer? %>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a href="#" data-toggle="modal" data-target=".cart-modal-center_<%= produce.id %>" class="btn btn-primary btn-sm">Add to cart</a>
+
+                    <div class="modal fade cart-modal-center_<%= produce.id %>" role="dialog" style="display: none;" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-body">
+                          <%= simple_form_for(LineItem.new) do |f| %>
+                            <%= f.input :quantity,
+                                        :input_html => { :min => 0 } %>
+                            <%= f.input :produce_id, 
+                                        :as => :hidden,
+                                        :input_html => { :value => produce.id } %>
+                            <%= f.input :shopping_cart_id, 
+                                        :as => :hidden,
+                                        :input_html => { :value => ShoppingCart.user_cart(current_user).id } %>
+                            <%= f.submit "Add", class: "btn btn-primary" %> 
+                          <% end %>
+                        </div>
+                      </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    </div> <!--/.modal-->
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div><!--/.col-->
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+ <div class="container-fluid">
+  <h1>Orders</h1>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="filter">
+            <p class="font-weight-bold">Filter</p>
+              <%= link_to "All Orders", orders_path, class: "mb-2" %> <br>
+              <%= link_to "Pending Orders", orders_path(status: 0), class: "mb-2" %><br>
+              <%= link_to "Accepted Orders", orders_path(status: 1) %> <br>
+              <%= link_to "Fulfilled Orders", orders_path(status: 2) %> <br>
+              <%= link_to "Cancelled Orders", orders_path(status: 3) %> <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <% if consumer? %>
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table project-table table-centered table-nowrap">
+                <thead>
+                  <tr>
+                    <th>Order#</th>
+                    <th>Order Date</th>
+                    <th>Produce</th>
+                    <th>Quantity</th>
+                    <th>Farmer Name</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @orders.each do |order| %>
+                    <% @produce = Produce.find_by_id(order.line_items.first.produce_id) %>
+                    <% @farmer = Farmer.find_by_id(@produce.farmer_id) %>
+
+                    <tr>
+                      <td><%= order.id %></td>
+                      <td><%= order.created_at %></td>
+                      <td><%= @produce.name %></td>
+                      <td><%= order.line_items.first.quantity %></td>
+                      <td><%= @farmer.farm_name  %></td>
+                      <td><span class="badge <%= order.assign_badge_class %>"><%= order.status %></span></td>
+                      <% if (order.fulfilled? or order.cancelled?) and not @farmer.has_consumer_review(current_consumer.id) %>
+                        <td><%= link_to "Leave a Review", new_review_path(farmer: @farmer.id), class: "text-primary" %></td>
+                      <% else %>
+                        <td class="text-muted">there's nothing do do here yet</td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table> 
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <h1><%=  %></h1>
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table project-table table-centered table-nowrap">
+                <thead>
+                  <tr>
+                    <th>Order#</th>
+                    <th>Order Date</th>
+                    <th>Produce</th>
+                    <th>Quantity</th> 
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @orders.each do |order| %>
+                    <% @produce = Produce.find_by_id(order.line_items.first.produce_id) %>
+                    <tr>
+                      <td><%= order.id %></td>
+                      <td><%= order.created_at %></td>
+                      <td><%= @produce.name %></td>
+                      <td><%= order.line_items.first.quantity %></td>
+                      <td><span class="badge <%= order.assign_badge_class %>"><%= order.status %></span></td>
+                      <td>
+                        <% if !order.fulfilled? and !order.cancelled? %>
+                          <% if order.accepted? %>
+                            <%= link_to "Mark as completed", mark_as_complete_order_path(order), :method => :patch  %> |
+                          <% else %>
+                            <%= link_to "Accept", accept_order_path(order), :method => :patch  %> |
+                            <%= link_to "Decline", cancel_order_path(order), :method => :patch, data: { confirm: "Are you sure?"}  %> |
+                          <% end %>
+                        <% else %>
+                          nothing to do here
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table> 
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

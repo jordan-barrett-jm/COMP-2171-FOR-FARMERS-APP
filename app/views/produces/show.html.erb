@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @produce.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @produce.description %>
+</p>
+
+<p>
+  <strong>Images:</strong>
+  <%= @produce.images %>
+</p>
+
+<p>
+  <strong>Available:</strong>
+  <%= @produce.available %>
+</p>
+
+<p>
+  <strong>Farm:</strong>
+  <%= @produce.farm_id %>
+</p>
+
+<%= link_to 'Edit', edit_produce_path(@produce) %> |
+<%= link_to 'Back', produces_path %>

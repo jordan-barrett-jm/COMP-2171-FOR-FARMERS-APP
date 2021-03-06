@@ -1,0 +1,29 @@
+<section class="container">
+  <h2 class="mb-2">Produces</h2>
+
+  <%= link_to 'New Produce', new_produce_path, class: "btn btn-primary mb-3" %>
+
+  <div class="card">
+    <div class="card-body">
+      <table class="table project-table table-centered table-nowrap">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Available</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody class="">
+          <% @produces.each do |produce| %>
+            <tr>
+              <td><%= produce.name %></td>
+              <td><span class="badge <%= produce.available_badge_class %>"><%= produce.available_to_string %></span></td>
+              <td><%= link_to 'Show', produce %> | <%= link_to 'Edit', edit_produce_path(produce) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
