@@ -14,9 +14,11 @@
             <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="<%= set_image(produce) %>">
             <div class="card-body">
               <div class="row">
+	      <% if produce.seller.verification_status == true%>
                 <div class="col-md-2">
-                  <img class="rounded" src="<%= User.find_by_id(produce.seller.user_id).avatar.url %>" alt="">
+                  <img class="rounded" src="https://indiesunlimited.com/wp-content/uploads/2015/06/facebook-verified-checkmark-300x297.png" alt="verified">
                 </div>
+	      <% end %>
                 <div class="col-md-6 pl-2">
                   <p class="mb-0"><%= produce.seller.farm_name %> </p>
                   <p class="text-success"><%= produce.seller.review %></p>
