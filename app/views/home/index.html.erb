@@ -20,7 +20,11 @@
                 </div>
 	      <% end %>
                 <div class="col-md-6 pl-2">
-                  <p class="mb-0"><%= produce.seller.farm_name %> </p>
+		  <% if extension_officer? %>
+                  	<a href="/farmers/<%= produce.seller.id %>>"><p class="mb-0"><%= produce.seller.farm_name %> </p></a>
+		  <% else %>
+			<p class="mb-0"><%= produce.seller.farm_name %> </p>
+		  <% end %>
                   <p class="text-success"><%= produce.seller.review %></p>
                 </div>
               </div>

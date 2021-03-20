@@ -2,8 +2,13 @@ Rails.application.routes.draw do
   resources :shopping_carts
   resources :reviews
   resources :consumers
+  resources :farmers do
+     member do
+        patch "verify_farmer"
+     end
+  end
   resources :farmers
-	resources :produces
+    resources :produces
   resources :after_signup
   resources :users, only: [:edit, :update]
   devise_for :users, controllers: { 

@@ -1,6 +1,7 @@
 class User < ApplicationRecord
 	has_many :farmers
 	has_many :consumers
+	has_many :extension_officers
   enum state: [:active, :deactivated]
 
   # validates :first_name, presence: true
@@ -17,6 +18,10 @@ class User < ApplicationRecord
          :timeoutable, :timeout_in => 20.minutes
 
 	mount_uploader :avatar, ImageUploader
+	
+	def extension_officer?
+		account_type == "extension_officer"
+	end
 
  	def consumer?
  		account_type == "consumer"

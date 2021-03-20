@@ -61,6 +61,14 @@ class FarmersController < ApplicationController
     end
   end
 
+  def verify_farmer
+     @farmer = Farmer.find(params[:id])
+     @farmer.update_attributes(verification_status: true)
+     respond_to do |format|
+        format.html { redirect_to @farmer, notice: 'Farmer was successfully verified' }
+     end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_farmer

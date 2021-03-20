@@ -1,5 +1,9 @@
 module UsersHelper
 
+	def extension_officer?
+		current_user and current_user.extension_officer?
+	end
+	
 	def farmer?
 		current_user and current_user.farmer?	
 	end
