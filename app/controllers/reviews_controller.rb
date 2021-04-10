@@ -27,6 +27,7 @@ class ReviewsController < ApplicationController
   def create
     @review = Review.new(review_params)
     @farmer = Farmer.find_by_id(params[:review][:farmer_id])
+#    @farmer = Farmer.find_by_id(params[:farmer_id])
     respond_to do |format|
       if @review.save
         format.html { redirect_to orders_path, notice: 'Review was successfully created.' }
@@ -70,6 +71,6 @@ class ReviewsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def review_params
-      params.require(:review).permit(:rating, :comment, :consumer_id, :farmer_id)
+      params.require(:review).permit(:rating, :comment, :consumer_id, :farmer_id, :produce_id)
     end
 end

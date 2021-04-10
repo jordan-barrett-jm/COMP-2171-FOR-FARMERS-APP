@@ -4,8 +4,17 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all.order(:created_at)
-    @orders = Order.where(status: params[:status]) if params[:status].present?
+    if current_user and current_user.consumer?
+       c_id = Consumer.find_by_user_id(current_user.id).id
+       @orders = Order.where(consumer_id: c_id).order(:created_at)
+    end
+    if current_user and current_user.farmer?
+       f_id = Farmer.find_by_user_id(current_user.id).id
+       @orders = Order.where(consumer_id: f_id).order(:created_at)
+       @orders = Order.where(consumer_id: f_id).where(status: params[:status]).order(:updated_at) if params[:status].present?
+    end
+#    @orders = Order.all.order(:created_at)
+#    @orders = Order.where(status: params[:status]) if params[:status].present?
   end
 
   # GET /orders/1
@@ -87,6 +96,6 @@ class OrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:consumer_id, :line_items_id => [])
+      params.require(:order).permit(:consumer_id, :line_items_id, :note, :farmer_id)
     end
 end

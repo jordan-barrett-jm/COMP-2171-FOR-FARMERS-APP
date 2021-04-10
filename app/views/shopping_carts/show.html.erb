@@ -31,7 +31,6 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="col-md-4">
 				<div class="card">
 					<div class="card-body">
@@ -45,7 +44,10 @@
 													:input_html => { value: item.id } %>
 							<%= f.input :consumer_id,
 													:as => :hidden,
-													:input_html => { value: current_user.id } %>
+													:input_html => { value: Consumer.find_by_user_id(current_user.id).id } %>
+							<%= f.input :farmer_id,
+                                                                                                        :as => :hidden,
+                                                                                                        :input_html => { value: Produce.find_by_id(item.produce_id).farmer_id } %>
 				     <%= f.submit "Place Order", class: "btn btn-primary" %> 
 						<% end %>
 					</div>

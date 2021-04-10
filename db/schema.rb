@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_20_161426) do
+ActiveRecord::Schema.define(version: 2021_04_10_044456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(version: 2021_03_20_161426) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "note"
     t.integer "status", default: 0
+    t.integer "line_items_id"
+    t.integer "farmer_id"
   end
 
   create_table "produces", force: :cascade do |t|
@@ -71,16 +73,12 @@ ActiveRecord::Schema.define(version: 2021_03_20_161426) do
   create_table "reviews", force: :cascade do |t|
     t.integer "rating"
     t.text "comment"
-    t.bigint "user_id", null: false
-    t.bigint "produce_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "farmer_id"
     t.bigint "consumer_id"
     t.index ["consumer_id"], name: "index_reviews_on_consumer_id"
     t.index ["farmer_id"], name: "index_reviews_on_farmer_id"
-    t.index ["produce_id"], name: "index_reviews_on_produce_id"
-    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "shopping_carts", force: :cascade do |t|
@@ -126,7 +124,5 @@ ActiveRecord::Schema.define(version: 2021_03_20_161426) do
   add_foreign_key "produces", "farmers"
   add_foreign_key "reviews", "consumers"
   add_foreign_key "reviews", "farmers"
-  add_foreign_key "reviews", "produces"
-  add_foreign_key "reviews", "users"
   add_foreign_key "shopping_carts", "consumers"
 end
