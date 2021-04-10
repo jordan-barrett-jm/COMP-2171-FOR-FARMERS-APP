@@ -4,9 +4,14 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
+    if current_user and current_user.extension_officer?
+       @orders = Order.all.order(:created_at)
+       @orders = Order.where(status: params[:status]) if params[:status].present?
+    end
     if current_user and current_user.consumer?
        c_id = Consumer.find_by_user_id(current_user.id).id
        @orders = Order.where(consumer_id: c_id).order(:created_at)
+       @orders = Order.where(consumer_id: c_id).where(status: params[:status]).order(:updated_at) if params[:status].present?
     end
     if current_user and current_user.farmer?
        f_id = Farmer.find_by_user_id(current_user.id).id

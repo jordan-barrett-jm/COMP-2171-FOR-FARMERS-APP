@@ -15,7 +15,7 @@
     <% @farmers.each do |farmer| %>
       <tr>
         <td><%= farmer.farm_name %></td>
-        <td><%= farmer.users_id %></td>
+        <td><%= farmer.user_id %></td>
         <td><%= link_to 'Show', farmer %></td>
         <td><%= link_to 'Edit', edit_farmer_path(farmer) %></td>
         <td><%= link_to 'Destroy', farmer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
