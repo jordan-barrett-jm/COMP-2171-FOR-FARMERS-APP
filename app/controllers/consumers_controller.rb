@@ -54,9 +54,14 @@ class ConsumersController < ApplicationController
   # DELETE /consumers/1
   # DELETE /consumers/1.json
   def destroy
+    @shopping_cart = ShoppingCart.find_by_consumer_id(@consumer.id)
+    @shopping_cart.destroy
+    user_id = @consumer.user_id
     @consumer.destroy
+    @user = User.find_by_id(user_id)
+    @user.destroy
     respond_to do |format|
-      format.html { redirect_to consumers_url, notice: 'Consumer was successfully destroyed.' }
+      format.html { redirect_to '/', notice: 'Consumer was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

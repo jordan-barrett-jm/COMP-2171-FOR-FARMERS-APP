@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :produces
   resources :after_signup
   resources :users, only: [:edit, :update]
+  #resources :users
   devise_for :users, controllers: { 
   	registrations: 'registrations', 
   	confirmations: 'confirmations'

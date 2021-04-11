@@ -3,5 +3,11 @@
     <h2>Account Details</h2>          
   </div>
   <%= render 'form' , user: @user %>
-
+  <br>
+  <% if consumer? %>
+	 <button class="btn btn-danger"><%= link_to "Delete Account", Consumer.find_by_user_id(@user.id), method: :delete, data: { confirm: 'Are you sure?' } %></button>
+  <% end %>
+  <% if farmer? %>
+         <button class="btn btn-danger"><%= link_to "Delete Account", Farmer.find_by_user_id(@user.id), method: :delete, data: { confirm: 'Are you sure?' } %></button>
+  <% end %>
 </div>
