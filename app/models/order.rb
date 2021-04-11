@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-	has_many :line_items
+	has_many :line_items, :dependent => :delete_all
 	enum status: [:pending, :accepted, :fulfilled, :cancelled]
 
 	def change_status(status)

@@ -54,6 +54,7 @@ class ConsumersController < ApplicationController
   # DELETE /consumers/1
   # DELETE /consumers/1.json
   def destroy
+    Order.where(consumer_id:@consumer.id).destroy_all
     @shopping_cart = ShoppingCart.find_by_consumer_id(@consumer.id)
     @shopping_cart.destroy
     user_id = @consumer.user_id
