@@ -1,4 +1,10 @@
+# For Farmers App
+
+This web application is a marketplace for farmers to list and sell their produce to the local market.
+
+
 # COMP 2171 Group Project  
+
 
 Group 3 Members
 
